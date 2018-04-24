@@ -1,0 +1,66 @@
+<!--
+Create a box
+Inside the box: 
+	create another box for the screen to display results
+	create buttons for the numbers 0-9
+	create buttons to clear
+	create buttons for mathematic operators
+-->
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Calculator</title>
+  <meta name="description" content="A JavaScript calculator">
+  <meta name="author" content="Cornelia Schulz">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="screen" class="twelve columns"></div>
+        </div>
+        <div class="row">
+            <div class="three columns"><input class="calculator-button reset" type="button" value="AC"></div>
+            <div class="three columns"><input class="calculator-button reset" type="button" value="CE"></div>
+            <div class="three columns"><input class="calculator-button" type="button" value="/"></div>
+            <div class="three columns"><input class="calculator-button lowercase" type="button" value="x"></div>         
+        </div>
+        <div class="row">
+            <div class="three columns"><input class="calculator-button" type="button" value="7"></div>
+            <div class="three columns"><input class="calculator-button" type="button" value="8"></div>
+            <div class="three columns"><input class="calculator-button" type="button" value="9"></div>
+            <div class="three columns"><input class="calculator-button" type="button" value="-"></div>     
+        </div>
+        <div class="row">
+                <div class="three columns"><input class="calculator-button" type="button" value="4"></div>
+                <div class="three columns"><input class="calculator-button" type="button" value="5"></div>
+                <div class="three columns"><input class="calculator-button" type="button" value="6"></div>
+                <div class="three columns"><input class="calculator-button" type="button" value="+"></div>    
+        </div>
+        <div class="row">
+                <div class="six columns">
+                    <input type="button" value="1" class="calculator-button half-size">
+                    <input class="calculator-button half-size extra-margin-left" type="button" value="2">
+                    <input class="calculator-button" type="button" value="0">
+                </div>
+                
+                <div class="three columns">
+                    <input class="calculator-button" type="button" value="3">
+                    <input class="calculator-button" type="button" value=".">
+                </div>
+                <div class="three columns"><input class="calculator-button extra-high" type="button" value="="></div>       
+        </div>
+    </div>
+
+
+
+  <script src="js/script.js"></script>
+</body>
+</html>
