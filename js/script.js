@@ -57,6 +57,12 @@ function convertInput(input){
         calculation.numbers = [];
         calculation.previousInputValues.push(calculation.current);
     }
+    else if (input === "AC"){
+        resetCalculator();
+    }
+    else if (input === "CE"){
+        deleteLastEntry();
+    }
     else {
         calculation.numbers.push(parseFloat(calculation.current));
         calculation.operator = input;
@@ -110,15 +116,19 @@ function divide(a, b) {
 }
 
 
-// display current calculation on screen
-
-
-// clear top half of screen
-
-
 // clear bottom half of screen
+function deleteLastEntry(){
+    calculation.current = "0";
+    calculation.previousInputValues.pop();
+}
 
 
 // reset (i.e. clear both parts of the screen)
+function resetCalculator(){
+    calculation.previousInputValues = [];
+    calculation.current = "0";
+    calculation.numbers = [];
+    calculation.operator = "";
+}
 
 startCalculator();
