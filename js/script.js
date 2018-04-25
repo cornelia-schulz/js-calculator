@@ -18,30 +18,23 @@ function startCalculator(){
 
 var calculation = {
     previousInputValues: [],
-    current: ""
+    current: "0",
+    numbers: [],
+    operator: ""
 }
 
 
-function runCalculator(){
-    
-    displayCurrentNumber(this.value);
-    
-
+function runCalculator(){    
+    convertInput(this.value);   
+    displayCurrentNumber();
 }
 
 
-// calculate result
-function calculateResult(numbers){
-    
-}
-
-
-// display number on screen
-function displayCurrentNumber(input) {
-    if (input === "0" || input === "1" || input === "2" || input === "3" || input === "4" || input === "5" || input === "6" || input === "7" || input === "8" || input === "9") {
-        input = parseInt(input);      
+// convert input
+function convertInput(input){
+    if (!isNaN(parseInt(input))) {      
         if(calculation.previousInputValues.length > 0){
-            if(typeof(calculation.previousInputValues[calculation.previousInputValues.length-1]) === 'number'){
+            if(!isNaN(parseInt(calculation.previousInputValues.length-1)) || calculation.previousInputValues.length-1 === "."){
                 calculation.current += input.toString(); 
             }
             else {
@@ -51,18 +44,70 @@ function displayCurrentNumber(input) {
         else {
             calculation.current = input;
         } 
+        calculation.previousInputValues.push(input);
+    }
+    else if (input === "."){
+        calculation.current += input;
+        calculation.previousInputValues.push(input);
     }
     else if (input === "="){
-        calculation.current = calculateResult(calculation.previousInputValues);
+        calculation.previousInputValues.push(input);
+        calculation.numbers.push(parseFloat(calculation.current));
+        calculation.current = calculateResult(calculation.numbers, calculation.operator);
+        calculation.previousInputValues.push(calculation.current);
     }
     else {
+        calculation.numbers.push(parseFloat(calculation.current));
+        calculation.operator = input;
         calculation.current = input;
-    }    
-    calculation.previousInputValues.push(input);
-    document.getElementById('currentNumber').innerHTML = calculation.current;
-    document.getElementById('currentCalculation').innerHTML = calculation.previousInputValues.join("");
+        calculation.previousInputValues.push(input);
+    }      
     return calculation;
 }
+
+// display number on screen
+function displayCurrentNumber() {
+    
+    document.getElementById('currentNumber').innerHTML = calculation.current;
+    document.getElementById('currentCalculation').innerHTML = calculation.previousInputValues.join("");
+    
+}
+
+// calculate result
+function calculateResult(numbers, operator){
+    console.log("Numbers: " + numbers + " operator: " + operator);
+    var result;
+    if (operator === "+"){
+        result = sum(numbers[0], numbers[1]);
+    }
+    else if (operator === "-"){
+        result = substract(numbers[0], numbers[1]);
+    }
+    else if (operator === "x"){
+        result = multiply(numbers[0], numbers[1]);
+    }
+    else if (operator === "/"){
+        result = divide(numbers[0], numbers[1]);
+    }
+    return result;
+}
+
+function sum(a, b){
+    return a+b;
+}
+
+function multiply(a, b){
+    return a*b;
+}
+
+function substract(a, b){
+    return a-b;
+}
+
+function divide(a, b) {
+    return a/b;
+}
+
 
 // display current calculation on screen
 
