@@ -15,6 +15,11 @@ body {
     height: 50px;
     margin-bottom: 5%;
     border-radius: 3%;
+    text-align: right;
+}
+
+#currentCalculation {
+    font-size: 0.6em;
 }
 
 input.calculator-button, input.calculator-button:hover {
