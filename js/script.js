@@ -34,7 +34,7 @@ function runCalculator(){
 function convertInput(input){
     if (!isNaN(parseInt(input))) {      
         if(calculation.previousInputValues.length > 0){
-            if(!isNaN(parseInt(calculation.previousInputValues.length-1)) || calculation.previousInputValues.length-1 === "."){
+            if(!isNaN(parseInt(calculation.previousInputValues[calculation.previousInputValues.length-1])) || calculation.previousInputValues.length-1 === "."){
                 calculation.current += input.toString(); 
             }
             else {
@@ -54,6 +54,7 @@ function convertInput(input){
         calculation.previousInputValues.push(input);
         calculation.numbers.push(parseFloat(calculation.current));
         calculation.current = calculateResult(calculation.numbers, calculation.operator);
+        calculation.numbers = [];
         calculation.previousInputValues.push(calculation.current);
     }
     else {
