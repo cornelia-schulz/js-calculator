@@ -44,18 +44,16 @@ function convertInput(input){
         else {
             calculation.current = input;
         } 
-        calculation.previousInputValues.push(input);
     }
     else if (input === "."){
         calculation.current += input;
-        calculation.previousInputValues.push(input);
     }
     else if (input === "="){
         calculation.previousInputValues.push(input);
         calculation.numbers.push(parseFloat(calculation.current));
         calculation.current = calculateResult(calculation.numbers, calculation.operator);
         calculation.numbers = [];
-        calculation.previousInputValues.push(calculation.current);
+        calculation.previousInputValues = [];
     }
     else if (input === "AC"){
         resetCalculator();
@@ -67,14 +65,79 @@ function convertInput(input){
         calculation.numbers.push(parseFloat(calculation.current));
         calculation.operator = input;
         calculation.current = input;
-        calculation.previousInputValues.push(input);
-    }      
+    }    
     return calculation;
+}
+
+function getInput(input){
+    let inputCollector = [];
+    let current = null;
+    let previous = null;
+    let operator = "";
+    // If input is a number add it to inputCollector
+    if (!isNaN(parseInt(input)) || input === ".") {
+        inputCollector.push(input);
+    }
+    
+    // If input is AC, clear the whole screen and reset the calculator
+    else if (input === "AC"){
+        resetCalculator();
+    }
+
+    // If input is CE, remove only the last entry 
+    else if (input === "CE"){
+        deleteLastEntry();
+    }
+
+    // If input is = sign, content of current to previous and inputCollector to current
+    // perform calculation
+    // Clear content in previous
+    // Then add result of calculation into current
+    // Clear operator
+       // If operator is "" and current and previous 0, just put inputCollector to current 
+    else if (input === "="){
+        if (!operator === ""){
+            previous = current;
+            current = parseFloat(inputCollector.join(""));
+            current = calculateResult(previous, current, operator);
+            previous = null;
+            operator = "";
+        }
+        else {
+            current = parseFloat(inputCollector.join(""));
+        }
+    }
+    
+    // If input is an operator:
+    // If operator variable is empty:
+       // If current is not empty, push current to previous
+       // push content of inputCollector to current
+    // If operator variable is not empty:
+       // calculate result from current & previous
+       // put result into current
+       // clear previous
+    // add operator to operator variable
+    else {
+        if(operator === ""){
+            if (current !== null){
+                previous = current;
+            }
+            current = parseFloat(inputCollector.join(""));
+        }
+        else {
+            previous = current;
+            current = parseFloat(inputCollector.join(""));
+            current = calculateResult(previous, current, operator);
+            previous = null; 
+        }
+        operator = input;
+    }
+
 }
 
 // display number on screen
 function displayCurrentNumber() {
-    
+    calculation.previousInputValues.push(calculation.current);
     document.getElementById('currentNumber').innerHTML = calculation.current;
     document.getElementById('currentCalculation').innerHTML = calculation.previousInputValues.join("");
     
