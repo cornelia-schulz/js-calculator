@@ -136,8 +136,13 @@ function awesomeCalculator(){
     
     // delete last entry
     this.deleteLastEntry = function(){
-        this.current = null;
-        this.inputCollector = [];
+        if (this.inputCollector.length === 0){
+            this.resetCalculator();
+        }
+        else {
+            this.current = null;
+            this.inputCollector = [];
+        }  
     }
        
     // reset (i.e. clear both parts of the screen)
