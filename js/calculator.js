@@ -57,17 +57,14 @@ function awesomeCalculator(){
     // display
     this.displayCalculation = function(operator, current, previous, equals, result){
         if (previous === null && operator === "" && equals === "" && result === null){
-            console.log(1);
             document.getElementById('currentNumber').innerHTML = current;
             document.getElementById('currentCalculation').innerHTML = current;
         }
         else if (previous === null && operator !== "" && equals === "" && result === null){
-            console.log(2);
             document.getElementById('currentNumber').innerHTML = operator;
             document.getElementById('currentCalculation').innerHTML = current + operator;
         }  
         else if (previous !== null && operator !== "" && equals === "" && result === null){
-            console.log(3);
             if (current === null){
                 document.getElementById('currentNumber').innerHTML = previous;
                 document.getElementById('currentCalculation').innerHTML = previous + operator;
@@ -78,7 +75,6 @@ function awesomeCalculator(){
             }            
         }
        else if (current !== null && previous !== null && operator !== "" && equals === "=" && result !== null){
-            console.log(4);
             document.getElementById('currentNumber').innerHTML = result;
             document.getElementById('currentCalculation').innerHTML = previous + operator + current + equals + result;
        }           
@@ -101,7 +97,6 @@ function awesomeCalculator(){
     
     // calculate result
     this.calculateResult = function(a, b, operator){
-        console.log(a + operator + b);
         var result;
         if (operator === "+"){
             result = sum(a, b);
@@ -154,5 +149,6 @@ function awesomeCalculator(){
         this.equals = "";
         this.result = null;
     }
+
 
 }
