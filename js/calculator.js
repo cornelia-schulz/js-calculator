@@ -7,7 +7,7 @@ function awesomeCalculator(){
     this.result = null;
 
     this.parseInput = function(input){
-        // If input is a number add it to inputCollector
+        // If input is a number:
         if (!isNaN(parseInt(input)) || input === "."){
             if (this.equals === "="){
                 this.resetCalculator();
@@ -22,14 +22,6 @@ function awesomeCalculator(){
             
         }
         // If input is an operator:
-        // If operator variable is empty:
-           //add operator
-        // If operator variable is not empty:
-           // calculate result from current & previous
-           // put result into current
-           // clear previous
-        // clear array
-        // add operator to operator variable
         else if (input === "+" || input === "-" || input === "x" || input === "/"){
             if (this.equals === "="){
                 this.equals = "";                
@@ -44,12 +36,7 @@ function awesomeCalculator(){
             this.current = null;
             this.inputCollector = [];
         }
-        // If input is = sign, content of current to previous and inputCollector to current
-        // perform calculation
-        // Clear content in previous
-        // Then add result of calculation into current
-        // Clear operator
-           // If operator is "" and current and previous 0, just put inputCollector to current 
+        // If input is = sign:
         else if (input === "="){
             this.result = this.calculateResult(this.previous, this.current, this.operator);
             this.equals = "=";
@@ -97,6 +84,7 @@ function awesomeCalculator(){
        }           
     }
 
+    // use inputCollector to create a string for display on the calculator
     this.makeDisplayResult = function(array){
         let output = array.join("");
         let newArray = output.split(".");
@@ -146,7 +134,7 @@ function awesomeCalculator(){
         return a/b;
     }
     
-    // clear bottom half of screen
+    // delete last entry
     this.deleteLastEntry = function(){
         this.current = null;
         this.inputCollector = [];
