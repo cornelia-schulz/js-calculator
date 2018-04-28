@@ -19,7 +19,7 @@ function startCalculator(){
 let calculator = new awesomeCalculator();
 
 function runCalculator(){    
-    calculator.getInput(this.value);
+    calculator.parseInput(this.value);
 }
 
 startCalculator();

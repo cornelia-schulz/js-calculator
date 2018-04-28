@@ -1,30 +1,49 @@
 function awesomeCalculator(){
     this.inputCollector = [];
-    this.current = null;
+    this.current = 0;
     this.previous = null;
     this.operator = "";
-    this.displayInput = "";
-    this.displayCalculation = "";
+    this.equals = "";
+    this.result = null;
 
-    this.getInput = function(input){
+    this.parseInput = function(input){
         // If input is a number add it to inputCollector
-        if (!isNaN(parseInt(input)) || input === ".") {
-            this.inputCollector.push(input);
-            this.displayInput = this.inputCollector.join("");
+        if (!isNaN(parseInt(input)) || input === "."){
+            if (this.equals === "="){
+                this.resetCalculator();
+            }
+            if (this.current === 0 && input === ".") {
+                this.inputCollector.push(this.current);
+            }
+            if (input !== "." || this.inputCollector.indexOf(".") === -1){
+                this.inputCollector.push(input);
+                this.current = parseFloat(this.inputCollector.join(""));
+            }          
+            
         }
-        
-        // If input is AC, clear the whole screen and reset the calculator
-        else if (input === "AC"){
-            resetCalculator();
-            this.displayInput = "0";
+        // If input is an operator:
+        // If operator variable is empty:
+           //add operator
+        // If operator variable is not empty:
+           // calculate result from current & previous
+           // put result into current
+           // clear previous
+        // clear array
+        // add operator to operator variable
+        else if (input === "+" || input === "-" || input === "x" || input === "/"){
+            if (this.equals === "="){
+                this.equals = "";                
+                this.result = null;
+            }
+            if (this.operator !== ""){
+                this.current = this.calculateResult(this.previous, this.current, this.operator);                            
+            }           
+            if (input === "x"){ this.operator = "*"}
+            else { this.operator = input };
+            this.previous = this.current;
+            this.current = null;
+            this.inputCollector = [];
         }
-    
-        // If input is CE, remove only the last entry 
-        else if (input === "CE"){
-            deleteLastEntry();
-            this.displayInput = "0";
-        }
-    
         // If input is = sign, content of current to previous and inputCollector to current
         // perform calculation
         // Clear content in previous
@@ -32,65 +51,64 @@ function awesomeCalculator(){
         // Clear operator
            // If operator is "" and current and previous 0, just put inputCollector to current 
         else if (input === "="){
-            if (this.operator !== ""){
-                this.previous = this.current;
-                this.current = parseFloat(this.inputCollector.join(""));
-                this.current = this.calculateResult(this.previous, this.current, this.operator);
-                this.previous = null;
-                this.operator = "";
-                this.inputCollector = [];
-            }
-            else {
-                this.current = parseFloat(this.inputCollector.join(""));
-            }
-            this.displayInput = this.current;
-            
+            this.result = this.calculateResult(this.previous, this.current, this.operator);
+            this.equals = "=";
         }
-        
-        // If input is an operator:
-        // If operator variable is empty:
-           // If current is not empty, push current to previous
-           // push content of inputCollector to current
-        // If operator variable is not empty:
-           // calculate result from current & previous
-           // put result into current
-           // clear previous
-        // add operator to operator variable
-        else {
-            if(this.operator === ""){
-                if (this.current !== null){
-                    this.previous = calculator.current;               
-                }
-                if (this.inputCollector.length > 0){
-                    this.current = parseFloat(this.inputCollector.join(""));
-                    this.inputCollector = [];
-                }
-                
-            }
-            else {
-                this.previous = this.current;
-                this.current = parseFloat(this.inputCollector.join(""));
-                this.current = this.calculateResult(this.previous, this.current, this.operator);
-                this.previous = null; 
-            }
-            this.operator = input;
-            this.displayInput = input;
+
+        else if (input === "AC"){
+            this.resetCalculator();
         }
-        this.displayCurrentNumber(this.displayInput);
-        console.log("InputCollector: " + this.inputCollector);
-        console.log("Current: " + this.current);
-        console.log("Previous: " + this.previous);
-        console.log("Operator: " + this.operator);
-    }
-    
-    // display current input on screen
-    this.displayCurrentNumber = function(input) {        
-        document.getElementById('currentNumber').innerHTML = input;  
+
+        else if (input === "CE"){
+            this.deleteLastEntry();
+        }
+
+        this.currentDisplay = this.makeDisplayResult(this.inputCollector);
+        this.displayCalculation(this.operator, this.currentDisplay, this.previous, this.equals, this.result);
     }
 
-    // display calculation on screen
-    this.displayCalculation = function() {
-        document.getElementById('currentCalculation').innerHTML = "";
+    // display
+    this.displayCalculation = function(operator, current, previous, equals, result){
+        if (previous === null && operator === "" && equals === "" && result === null){
+            console.log(1);
+            document.getElementById('currentNumber').innerHTML = current;
+            document.getElementById('currentCalculation').innerHTML = current;
+        }
+        else if (previous === null && operator !== "" && equals === "" && result === null){
+            console.log(2);
+            document.getElementById('currentNumber').innerHTML = operator;
+            document.getElementById('currentCalculation').innerHTML = current + operator;
+        }  
+        else if (previous !== null && operator !== "" && equals === "" && result === null){
+            console.log(3);
+            if (current === null){
+                document.getElementById('currentNumber').innerHTML = previous;
+                document.getElementById('currentCalculation').innerHTML = previous + operator;
+            }
+            else {
+                document.getElementById('currentNumber').innerHTML = current;
+                document.getElementById('currentCalculation').innerHTML = previous + operator + current;
+            }            
+        }
+       else if (current !== null && previous !== null && operator !== "" && equals === "=" && result !== null){
+            console.log(4);
+            document.getElementById('currentNumber').innerHTML = result;
+            document.getElementById('currentCalculation').innerHTML = previous + operator + current + equals + result;
+       }           
+    }
+
+    this.makeDisplayResult = function(array){
+        let output = array.join("");
+        let newArray = output.split(".");
+        if (newArray[0] !== ""){
+            newArray[0] = parseFloat(newArray[0]);
+        }      
+        if (newArray.join(".") === ""){
+            return null;
+        }
+        else { 
+            return newArray.join("."); 
+        }       
     }
     
     // calculate result
@@ -103,7 +121,7 @@ function awesomeCalculator(){
         else if (operator === "-"){
             result = substract(a, b);
         }
-        else if (operator === "x"){
+        else if (operator === "*"){
             result = multiply(a, b);
         }
         else if (operator === "/"){
@@ -128,20 +146,20 @@ function awesomeCalculator(){
         return a/b;
     }
     
-    
     // clear bottom half of screen
     this.deleteLastEntry = function(){
         this.current = null;
-        this.inputCollector.pop();
+        this.inputCollector = [];
     }
-    
-    
+       
     // reset (i.e. clear both parts of the screen)
     this.resetCalculator = function(){
-        this.inputCollector = [];
-        this.current = null;
+        this.inputCollector = [0];
+        this.current = 0;
         this.previous = null;
         this.operator = "";
+        this.equals = "";
+        this.result = null;
     }
 
 }
