@@ -1,11 +1,6 @@
 /*
 Get input by determining which button was pressed
 display the input on the screen
-Store input
-When = is pressed, compute the calculation
-Display the result on the screen
-When AC is pressed clear everything
-When CE is pressed clear the last input
 */
 
 // add Listeners for button presses
@@ -16,8 +11,10 @@ function startCalculator(){
     }
 }
 
+// create a new instance of the calculator
 let calculator = new awesomeCalculator();
 
+// start the calculator when a button is clicked
 function runCalculator(){    
     calculator.parseInput(this.value);
 }

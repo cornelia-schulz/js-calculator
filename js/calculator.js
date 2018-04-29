@@ -18,8 +18,7 @@ function awesomeCalculator(){
             if (input !== "." || this.inputCollector.indexOf(".") === -1){
                 this.inputCollector.push(input);
                 this.current = parseFloat(this.inputCollector.join(""));
-            }          
-            
+            }              
         }
         // If input is an operator:
         else if (input === "+" || input === "-" || input === "x" || input === "/"){
@@ -56,27 +55,29 @@ function awesomeCalculator(){
 
     // display
     this.displayCalculation = function(operator, current, previous, equals, result){
+        let currentNumber = document.getElementById('currentNumber');
+        let currentOperation = document.getElementById('currentCalculation');
         if (previous === null && operator === "" && equals === "" && result === null){
-            document.getElementById('currentNumber').innerHTML = current;
-            document.getElementById('currentCalculation').innerHTML = current;
+            currentNumber.innerHTML = current;
+            currentOperation.innerHTML = current;
         }
         else if (previous === null && operator !== "" && equals === "" && result === null){
-            document.getElementById('currentNumber').innerHTML = operator;
-            document.getElementById('currentCalculation').innerHTML = current + operator;
+            currentNumber.innerHTML = operator;
+            currentOperation.innerHTML = current + operator;
         }  
         else if (previous !== null && operator !== "" && equals === "" && result === null){
             if (current === null){
-                document.getElementById('currentNumber').innerHTML = previous;
-                document.getElementById('currentCalculation').innerHTML = previous + operator;
+                currentNumber.innerHTML = previous;
+                currentOperation.innerHTML = previous + operator;
             }
             else {
-                document.getElementById('currentNumber').innerHTML = current;
-                document.getElementById('currentCalculation').innerHTML = previous + operator + current;
+                currentNumber.innerHTML = current;
+                currentOperation.innerHTML = previous + operator + current;
             }            
         }
        else if (current !== null && previous !== null && operator !== "" && equals === "=" && result !== null){
-            document.getElementById('currentNumber').innerHTML = result;
-            document.getElementById('currentCalculation').innerHTML = previous + operator + current + equals + result;
+            currentNumber.innerHTML = result;
+            currentOperation.innerHTML = previous + operator + current + equals + result;
        }           
     }
 
