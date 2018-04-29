@@ -85,6 +85,7 @@ function awesomeCalculator(){
         let output = array.join("");
         let newArray = output.split(".");
         if (newArray[0] !== ""){
+            // Remove trailing 0s e.g. [0,0,1,2,3]
             newArray[0] = parseFloat(newArray[0]);
         }      
         if (newArray.join(".") === ""){
